@@ -1,4 +1,4 @@
-package org.vervecraft.mocha.simpleprefixmanager;
+package me.mocha.simpleprefixmanager;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.configuration.InvalidConfigurationException;
@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class PAPI extends PlaceholderExpansion {
 
-    private SimplePrefixManager plugin;
+    private final SimplePrefixManager plugin;
 
     public PAPI(SimplePrefixManager plugin){
         this.plugin = plugin;
@@ -40,7 +40,7 @@ public class PAPI extends PlaceholderExpansion {
             DataManager data = new DataManager(plugin);
             if (player.hasPermission("SPM.prefix")){
                 try {
-                    return data.loadFromYML(player);
+                    return data.load(player);
                 } catch (IOException | InvalidConfigurationException e) {
                     plugin.getLogger().warning(e.getMessage());
                 }

@@ -1,4 +1,4 @@
-package org.vervecraft.mocha.simpleprefixmanager;
+package me.mocha.simpleprefixmanager;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -15,7 +15,7 @@ import static java.lang.String.join;
 
 public class PrefixCommand implements CommandExecutor {
 
-    private SimplePrefixManager plugin;
+    private final SimplePrefixManager plugin;
 
     public PrefixCommand(SimplePrefixManager plugin){
         this.plugin = plugin;
@@ -29,11 +29,11 @@ public class PrefixCommand implements CommandExecutor {
         if(player.hasPermission("SPM.prefix")){
             if(args.equals("enable")){
                 try {
-                    String prefix = data.loadFromYML(player);
+                    String prefix = data.load(player);
                     if(prefix == null){
                         prefix = "";
                     }
-                    data.saveToYML(player , true , prefix);
+                    data.save(player , true , prefix);
                     player.sendMessage("Your custom prefix has been enabled.");
                     return true;
                 } catch (IOException | InvalidConfigurationException e) {
@@ -42,8 +42,8 @@ public class PrefixCommand implements CommandExecutor {
 
             } else if (args.equals("disable")) {
                 try {
-                    String prefix = data.loadFromYML(player);
-                    data.saveToYML(player , false , prefix);
+                    String prefix = data.load(player);
+                    data.save(player , false , prefix);
                     player.sendMessage("Your custom prefix has been disabled.");
                     return true;
                 } catch (IOException | InvalidConfigurationException e) {
@@ -53,7 +53,7 @@ public class PrefixCommand implements CommandExecutor {
             }
             else {
                 try {
-                    data.saveToYML(player , true , args);
+                    data.save(player , true , args);
                     player.sendMessage("Your custom prefix is now set to: " + args);
                     return true;
                 } catch (IOException | InvalidConfigurationException e) {

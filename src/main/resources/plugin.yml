@@ -1,6 +1,6 @@
 name: SimplePrefixManager
 version: '${project.version}'
-main: org.vervecraft.mocha.simpleprefixmanager.SimplePrefixManager
+main: me.mocha.simpleprefixmanager.SimplePrefixManager
 api-version: '1.21'
 commands:
   prefix:

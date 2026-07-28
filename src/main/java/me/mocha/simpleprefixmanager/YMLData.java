@@ -1,4 +1,4 @@
-package org.vervecraft.mocha.simpleprefixmanager;
+package me.mocha.simpleprefixmanager;
 
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -7,16 +7,17 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
-public class DataManager {
+public class YMLData {
+    private final SimplePrefixManager plugin;
+
+    public YMLData(SimplePrefixManager plugin) {
+        this.plugin = plugin;
+    }
+
 
     File prefixFile;
     YamlConfiguration prefixConfig;
 
-    private final SimplePrefixManager plugin;
-
-    public DataManager(SimplePrefixManager plugin){
-        this.plugin = plugin;
-    }
     public YamlConfiguration getPrefixConfig(){
         return this.prefixConfig;
     }
@@ -56,11 +57,4 @@ public class DataManager {
         }
 
     }
-    public void loadFromSQLite(Player player){
-
-    }
-    public void saveToSQLite(Player player, boolean status){
-
-    }
-
 }

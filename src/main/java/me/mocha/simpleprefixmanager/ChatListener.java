@@ -1,4 +1,4 @@
-package org.vervecraft.mocha.simpleprefixmanager;
+package me.mocha.simpleprefixmanager;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.event.EventHandler;

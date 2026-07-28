@@ -1,4 +1,4 @@
-package org.vervecraft.mocha.simpleprefixmanager;
+package me.mocha.simpleprefixmanager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
