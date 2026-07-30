@@ -1,6 +1,8 @@
 ## Overview
 SimplePrefixManager allows players to assign custom prefixes, and adds hex color code support in chat.
 
+Compatible with Bukkit, Spigot, and Paper servers from Minecraft Java Edition 1.20 through 26.2.
+
 ## Features
 - Manage player prefixes with simple commands
 - Lightweight and efficient
