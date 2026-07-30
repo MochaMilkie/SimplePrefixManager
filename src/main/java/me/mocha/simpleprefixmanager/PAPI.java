@@ -1,7 +1,6 @@
 package me.mocha.simpleprefixmanager;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -37,11 +36,11 @@ public class PAPI extends PlaceholderExpansion {
     @Override
     public String onPlaceholderRequest(Player player , @NotNull String identifier){
         if(identifier.equalsIgnoreCase("prefix") && player != null){
-            DataManager data = new DataManager(plugin);
+            DataManager data = plugin.getDataManager();
             if (player.hasPermission("SPM.prefix")){
                 try {
                     return data.load(player);
-                } catch (IOException | InvalidConfigurationException e) {
+                } catch (IOException e) {
                     plugin.getLogger().warning(e.getMessage());
                 }
 
