@@ -1,60 +1,41 @@
 package me.mocha.simpleprefixmanager;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
 
-public class YMLData {
+public final class YMLData implements PrefixStorage {
     private final SimplePrefixManager plugin;
 
     public YMLData(SimplePrefixManager plugin) {
         this.plugin = plugin;
     }
 
-
-    File prefixFile;
-    YamlConfiguration prefixConfig;
-
-    public YamlConfiguration getPrefixConfig(){
-        return this.prefixConfig;
-    }
-
-    public String loadFromYML(Player player) throws IOException, InvalidConfigurationException {
-        prefixFile = new File(plugin.getDataFolder()+File.separator+"prefix.yml");
+    @Override
+    public PrefixData load(Player player) {
+        File prefixFile = new File(plugin.getDataFolder(), "prefix.yml");
         YamlConfiguration prefixConfig = YamlConfiguration.loadConfiguration(prefixFile);
         String uuid = player.getUniqueId().toString();
-        if(player.hasPermission("SPM.prefix")){
-            String prefix = prefixConfig.getString(uuid+".Prefix");
-            boolean status = prefixConfig.getBoolean(uuid+".Enabled");
-            if(status){
-                return prefix;
-            } else {
-                return "";
-
-
-            }
-        }
-        return "";
+        String prefix = prefixConfig.getString(uuid + ".Prefix", "");
+        boolean status = prefixConfig.getBoolean(uuid + ".Enabled", false);
+        return new PrefixData(status, prefix);
     }
 
-    public void saveToYML(Player player, Boolean status , String prefix) throws IOException, InvalidConfigurationException {
-        prefixFile = new File(plugin.getDataFolder()+File.separator+"prefix.yml");
+    @Override
+    public void save(Player player, boolean status, String prefix) throws IOException {
+        File prefixFile = new File(plugin.getDataFolder(), "prefix.yml");
         YamlConfiguration prefixConfig = YamlConfiguration.loadConfiguration(prefixFile);
         String uuid = player.getUniqueId().toString();
-        if(player.hasPermission("SPM.prefix")){
-            if(!status){
-                prefixConfig.set(uuid+".Enabled" , false);
-                prefixConfig.save(prefixFile);
-                return;
-            }
-            prefixConfig.set(uuid+".Prefix" , prefix);
-            prefixConfig.set(uuid+".Enabled" , true);
-            prefixConfig.save(prefixFile);
+        prefixConfig.set(uuid + ".Prefix", prefix == null ? "" : prefix);
+        prefixConfig.set(uuid + ".Enabled", status);
+        prefixConfig.save(prefixFile);
 
-        }
+    }
 
+    @Override
+    public void close() {
+        // YAML storage writes changes immediately.
     }
 }

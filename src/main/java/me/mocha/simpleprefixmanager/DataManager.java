@@ -1,42 +1,38 @@
 package me.mocha.simpleprefixmanager;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
 
-public class DataManager {
+public final class DataManager {
 
-    private final SimplePrefixManager plugin;
-    private YMLData ymldata;
-    private SQLData sqldata;
-    private String saveType;
-    public DataManager(SimplePrefixManager plugin){
-        this.plugin = plugin;
-        String saveType = plugin.getConfig().getString("save-data-type");
-        if(saveType.equalsIgnoreCase("yml")){
-            this.ymldata = new YMLData(plugin);
-            this.saveType = "yml";
-        }
-        else if(saveType.equalsIgnoreCase("sql")){
-            this.sqldata = new SQLData();
-            this.saveType = "sql";
+    private final PrefixStorage storage;
+
+    public DataManager(SimplePrefixManager plugin) {
+        String saveMethod = plugin.getConfig().getString("save-method", "YAML");
+        if (saveMethod.equalsIgnoreCase("YAML") || saveMethod.equalsIgnoreCase("YML")) {
+            storage = new YMLData(plugin);
+        } else if (saveMethod.equalsIgnoreCase("SQLITE") || saveMethod.equalsIgnoreCase("SQL")) {
+            storage = new SQLData(plugin);
+        } else {
+            throw new IllegalArgumentException("Unsupported save-method: " + saveMethod);
         }
     }
-    public String load(Player player) throws IOException, InvalidConfigurationException {
-        switch(saveType){
-            case "yml":
-                return ymldata.loadFromYML(player);
-            case "sql":
-                return sqldata.loadFromSQL(player);
-        }
 
-        return "";
+    public String load(Player player) throws IOException {
+        PrefixData prefixData = storage.load(player);
+        return prefixData.isEnabled() ? prefixData.getPrefix() : "";
     }
-    public void save(Player player,Boolean enabled, String prefix) throws IOException, InvalidConfigurationException {
 
+    public PrefixData loadPrefixData(Player player) throws IOException {
+        return storage.load(player);
+    }
 
+    public void save(Player player, boolean enabled, String prefix) throws IOException {
+        storage.save(player, enabled, prefix);
+    }
+
+    public void close() {
+        storage.close();
     }
 }

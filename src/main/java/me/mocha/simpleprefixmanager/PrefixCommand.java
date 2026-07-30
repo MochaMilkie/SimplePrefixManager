@@ -3,13 +3,9 @@ package me.mocha.simpleprefixmanager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import sun.java2d.pipe.SpanShapeRenderer;
-
 import java.io.IOException;
-import java.util.Arrays;
 
 import static java.lang.String.join;
 
@@ -23,30 +19,32 @@ public class PrefixCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage("Only players can use this command.");
+            return true;
+        }
+
         Player player = (Player) commandSender;
-        DataManager data = new DataManager(plugin);
+        DataManager data = plugin.getDataManager();
         String args = join(" ", strings);
         if(player.hasPermission("SPM.prefix")){
             if(args.equals("enable")){
                 try {
-                    String prefix = data.load(player);
-                    if(prefix == null){
-                        prefix = "";
-                    }
-                    data.save(player , true , prefix);
+                    PrefixData prefixData = data.loadPrefixData(player);
+                    data.save(player, true, prefixData.getPrefix());
                     player.sendMessage("Your custom prefix has been enabled.");
                     return true;
-                } catch (IOException | InvalidConfigurationException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
             } else if (args.equals("disable")) {
                 try {
-                    String prefix = data.load(player);
-                    data.save(player , false , prefix);
+                    PrefixData prefixData = data.loadPrefixData(player);
+                    data.save(player, false, prefixData.getPrefix());
                     player.sendMessage("Your custom prefix has been disabled.");
                     return true;
-                } catch (IOException | InvalidConfigurationException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
 
@@ -56,7 +54,7 @@ public class PrefixCommand implements CommandExecutor {
                     data.save(player , true , args);
                     player.sendMessage("Your custom prefix is now set to: " + args);
                     return true;
-                } catch (IOException | InvalidConfigurationException e) {
+                } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
             }

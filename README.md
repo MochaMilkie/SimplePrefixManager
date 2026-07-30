@@ -5,7 +5,7 @@ SimplePrefixManager allows players to assign custom prefixes, and adds hex color
 - Manage player prefixes with simple commands
 - Lightweight and efficient
 - PlaceholderAPI support ("SPM_prefix")
-- SQLite Support (coming soon)
+- SQLite storage support
 - Vault Support (coming soon)
 
 ## Installation
@@ -16,6 +16,9 @@ SimplePrefixManager allows players to assign custom prefixes, and adds hex color
 ## Permissions
 - SPM.prefix | Allows use of, disabling and enabling of a prefix.
 - SPM.color | Allows use of hex color codes in prefix, and chat.
+
+## Storage
+Set `save-method` in `config.yml` to `YAML` (the default) or `SQLITE`. SQLite creates a local database in the plugin data folder; its filename is controlled by `sqlite-database` and defaults to `prefixes.db`.
 
 
 ## Contributing

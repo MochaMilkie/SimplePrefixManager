@@ -1,6 +1,7 @@
-#save-method options: YML , SQLite
-save-method: YML
+# Storage options: YAML or SQLITE
+save-method: YAML
 
-SQLite-DB-path:
+# Relative paths are resolved inside this plugin's data folder.
+sqlite-database: prefixes.db
 
 vault-support: false

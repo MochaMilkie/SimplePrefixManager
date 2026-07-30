@@ -5,10 +5,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class SimplePrefixManager extends JavaPlugin {
 
+    private DataManager dataManager;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
         saveResource("prefix.yml" , false);
+        dataManager = new DataManager(this);
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")){
             new PAPI(this).register();
@@ -21,6 +24,12 @@ public final class SimplePrefixManager extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        if (dataManager != null) {
+            dataManager.close();
+        }
+    }
+
+    public DataManager getDataManager() {
+        return dataManager;
     }
 }
