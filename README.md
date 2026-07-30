@@ -1,35 +1,115 @@
-## Overview
-SimplePrefixManager allows players to assign custom prefixes, and adds hex color code support in chat.
+# SimplePrefixManager
 
-Compatible with Bukkit, Spigot, and Paper servers from Minecraft Java Edition 1.20 through 26.2.
+A lightweight, modern prefix manager for Bukkit, Spigot, and Paper servers.
+
+SimplePrefixManager allows players to create their own chat prefixes with support for legacy color codes (`&`) and full RGB hex colors (`#RRGGBB`). Prefixes can be stored in either YAML or SQLite and are accessible through PlaceholderAPI.
 
 ## Features
-- Manage player prefixes with simple commands
-- Lightweight and efficient
-- PlaceholderAPI support ("SPM_prefix")
-- SQLite storage support
-- Vault Support (coming soon)
+
+- 🎨 Custom player prefixes
+- 🌈 Legacy (&) and Hex RGB color support
+- 💾 YAML or SQLite storage
+- ⚡ Lightweight with minimal overhead
+- 🔌 PlaceholderAPI integration
+- 🧩 Built for Bukkit, Spigot, and Paper
+- ✅ Compatible with Minecraft 1.20 - 1.26.2
+
+## Requirements
+
+- Java 8+
+- Bukkit, Spigot, or Paper
+- Minecraft 1.20 through 1.26.2
 
 ## Installation
-1. Download the latest release from the [releases page](https://github.com/MochaMilkie/SimplePrefixManager-1.21/releases).
-2. Place the downloaded `.jar` file into the `plugins` directory of your Minecraft server.
-3. Restart your server to load the plugin.
+
+1. Download the latest release.
+2. Place `SimplePrefixManager.jar` into your server's `plugins` folder.
+3. Start or restart your server.
+4. Configure `config.yml` if desired.
+
+## Configuration
+
+```yaml
+# Storage options
+save-method: YAML
+
+# Used when save-method is SQLITE
+sqlite-database: prefixes.db
+
+vault-support: false
+```
+
+### Storage Options
+
+#### YAML
+
+Stores prefixes inside:
+
+```
+plugins/SimplePrefixManager/prefix.yml
+```
+
+#### SQLite
+
+Stores all prefix data inside a local SQLite database.
+
+## Commands
+
+| Command | Description |
+|---------|-------------|
+| `/prefix <text>` | Sets your custom prefix |
+| `/prefix enable` | Enables your prefix |
+| `/prefix disable` | Disables your prefix |
 
 ## Permissions
-- SPM.prefix | Allows use of, disabling and enabling of a prefix.
-- SPM.color | Allows use of hex color codes in prefix, and chat.
 
-## Storage
-Set `save-method` in `config.yml` to `YAML` (the default) or `SQLITE`. SQLite creates a local database in the plugin data folder; its filename is controlled by `sqlite-database` and defaults to `prefixes.db`.
+| Permission | Description |
+|------------|-------------|
+| `SPM.prefix` | Allows players to create, enable, and disable prefixes |
+| `SPM.color` | Allows use of color codes and hex colors in chat |
 
+## PlaceholderAPI
+
+Placeholder:
+
+```
+%SPM_prefix%
+```
+
+Returns the player's currently enabled prefix.
+
+## Color Support
+
+Supports both:
+
+```
+&6Gold
+&aGreen
+```
+
+and modern RGB colors:
+
+```
+#55FFFFHello
+#FF5555Warning
+```
+
+## Storage Architecture
+
+SimplePrefixManager uses an abstract storage system allowing administrators to choose between YAML or SQLite without changing player commands.
+
+Current backends:
+
+- YAML
+- SQLite
+- SQL
+
+This architecture also makes future storage implementations easier to add.
 
 ## Contributing
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature-branch`).
-3. Make your changes.
-4. Commit your changes (`git commit -am 'Add new feature'`).
-5. Push to the branch (`git push origin feature-branch`).
-6. Create a new Pull Request.
 
-## Contact
-For any issues or feature requests, please open an issue on this repository.
+Pull requests, issues, and feature suggestions are always welcome.
+
+## License
+
+MIT License (or whatever license you choose).
