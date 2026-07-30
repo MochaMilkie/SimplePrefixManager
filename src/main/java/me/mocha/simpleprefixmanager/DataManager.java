@@ -14,6 +14,8 @@ public final class DataManager {
             storage = new YMLData(plugin);
         } else if (saveMethod.equalsIgnoreCase("SQLITE") || saveMethod.equalsIgnoreCase("SQL")) {
             storage = new SQLData(plugin);
+        } else if (saveMethod.equalsIgnoreCase("MYSQL")) {
+            storage = new MySQLData(plugin);
         } else {
             throw new IllegalArgumentException("Unsupported save-method: " + saveMethod);
         }

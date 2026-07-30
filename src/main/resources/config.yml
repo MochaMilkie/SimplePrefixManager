@@ -1,7 +1,14 @@
-# Storage options: YAML or SQLITE
-save-method: YAML
+# Storage options: YAML, SQLITE or MYSQL
+save-method: MYSQL
 
 # Relative paths are resolved inside this plugin's data folder.
 sqlite-database: prefixes.db
+
+mysql:
+  host: localhost
+  port: 3306
+  database: minecraft
+  user: root
+  password: ""
 
 vault-support: false

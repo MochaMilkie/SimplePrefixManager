@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/** SQLite implementation of prefix persistence. */
 public final class SQLData implements PrefixStorage {
 
     private static final String CREATE_TABLE_SQL = "CREATE TABLE IF NOT EXISTS player_prefixes ("
@@ -75,7 +74,6 @@ public final class SQLData implements PrefixStorage {
         try {
             connection.close();
         } catch (SQLException exception) {
-            // Bukkit's logger is not available here during shutdown; there is no safe recovery.
         }
     }
 }
